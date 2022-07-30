@@ -14,9 +14,9 @@ public class QuestionDTO {
     @NotBlank
     private String question;
     @NotBlank
-    private String type;
+    private Type type;
     @NotBlank
-    private String category;
+    private Category category;
     private List<AnswerDTO> answers;
 
 
@@ -24,17 +24,17 @@ public class QuestionDTO {
 
     }
 
-    public QuestionDTO(String userId, String question, String type, String category) {
-        this.userId = userId;
-        this.question = question;
+    public QuestionDTO(String userId, String question, Type type, Category category) {
+        this.setUserId(userId);
+        this.setQuestion(question);
         this.type = type;
         this.category = category;
     }
 
-    public QuestionDTO(String id, String userId, String question, String type, String category) {
+    public QuestionDTO(String id, String userId, String question, Type type, Category category) {
         this.id = id;
-        this.userId = userId;
-        this.question = question;
+        this.setUserId(userId);
+        this.setQuestion(question);
         this.type = type;
         this.category = category;
     }
@@ -45,6 +45,7 @@ public class QuestionDTO {
     }
 
     public void setAnswers(List<AnswerDTO> answers) {
+        Objects.requireNonNull(answers, "You must give an answer");
         this.answers = answers;
     }
 
@@ -61,6 +62,7 @@ public class QuestionDTO {
     }
 
     public void setUserId(String userId) {
+        Objects.requireNonNull(userId, "You must be authenticated for publish a question");
         this.userId = userId;
     }
 
@@ -69,22 +71,23 @@ public class QuestionDTO {
     }
 
     public void setQuestion(String question) {
+        Objects.requireNonNull(question, "You must write some question");
         this.question = question;
     }
 
-    public String getType() {
+    public Type getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(Type type) {
         this.type = type;
     }
 
-    public String getCategory() {
+    public Category getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Category category) {
         this.category = category;
     }
 
@@ -101,8 +104,7 @@ public class QuestionDTO {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof QuestionDTO)) return false;
         QuestionDTO that = (QuestionDTO) o;
         return Objects.equals(id, that.id);
     }

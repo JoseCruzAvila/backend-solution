@@ -1,6 +1,8 @@
 package co.com.sofka.questions.model;
 
 
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import java.util.Objects;
 import java.util.Optional;
@@ -11,6 +13,8 @@ public class AnswerDTO {
     @NotBlank
     private String questionId;
     @NotBlank
+    @Min(15)
+    @Max(250)
     private String answer;
 
     private Integer position;
@@ -21,9 +25,9 @@ public class AnswerDTO {
     }
 
     public AnswerDTO(@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer) {
-        this.userId = userId;
-        this.questionId = questionId;
-        this.answer = answer;
+        this.setUserId(userId);
+        this.setQuestionId(questionId);
+        this.setAnswer(answer);
     }
 
     public Integer getPosition() {
@@ -40,6 +44,7 @@ public class AnswerDTO {
     }
 
     public void setUserId(String userId) {
+        Objects.requireNonNull(userId, "For create a question you must be authenticated");
         this.userId = userId;
     }
 
@@ -48,6 +53,7 @@ public class AnswerDTO {
     }
 
     public void setQuestionId(String questionId) {
+        Objects.requireNonNull(questionId, "The answer must be linked to a question");
         this.questionId = questionId;
     }
 
@@ -56,13 +62,13 @@ public class AnswerDTO {
     }
 
     public void setAnswer(String answer) {
+        Objects.requireNonNull(answer, "You must give an answer");
         this.answer = answer;
     }
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof AnswerDTO)) return false;
         AnswerDTO answerDTO = (AnswerDTO) o;
         return Objects.equals(userId, answerDTO.userId);
     }
