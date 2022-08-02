@@ -1,5 +1,7 @@
 package co.com.sofka.questions.model;
 
+import co.com.sofka.questions.model.enums.Category;
+import co.com.sofka.questions.model.enums.Type;
 
 import javax.validation.constraints.NotBlank;
 import java.util.ArrayList;
@@ -21,10 +23,11 @@ public class QuestionDTO {
 
 
     public QuestionDTO() {
-
+        super();
     }
 
     public QuestionDTO(String userId, String question, Type type, Category category) {
+        super();
         this.setUserId(userId);
         this.setQuestion(question);
         this.type = type;

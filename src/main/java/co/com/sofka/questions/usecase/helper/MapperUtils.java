@@ -1,11 +1,11 @@
-package co.com.sofka.questions.usecase;
+package co.com.sofka.questions.usecase.helper;
 
 import co.com.sofka.questions.collections.Answer;
 import co.com.sofka.questions.collections.Question;
 import co.com.sofka.questions.model.AnswerDTO;
-import co.com.sofka.questions.model.Category;
+import co.com.sofka.questions.model.enums.Category;
 import co.com.sofka.questions.model.QuestionDTO;
-import co.com.sofka.questions.model.Type;
+import co.com.sofka.questions.model.enums.Type;
 import org.springframework.stereotype.Component;
 
 import java.util.Arrays;
@@ -13,9 +13,10 @@ import java.util.function.Function;
 
 @Component
 public class MapperUtils {
-    public Function<AnswerDTO, Answer> mapperToAnswer() {
+    public Function<AnswerDTO, Answer> mapperToAnswer(String id) {
         return updateAnswer -> {
           var answer = new Answer();
+          answer.setId(id);
           answer.setUserId(updateAnswer.getUserId());
           answer.setAnswer(updateAnswer.getAnswer());
           answer.setQuestionId(updateAnswer.getQuestionId());
@@ -29,9 +30,10 @@ public class MapperUtils {
         return answer -> new AnswerDTO(answer.getQuestionId(), answer.getUserId(), answer.getAnswer());
     }
 
-    public Function<QuestionDTO, Question> mapperToQuestion() {
+    public Function<QuestionDTO, Question> mapperToQuestion(String id) {
         return updateQuestion -> {
             var question = new Question();
+            question.setId(id);
             question.setUserId(updateQuestion.getUserId());
             question.setQuestion(updateQuestion.getQuestion());
             question.setType(updateQuestion.getType().name());
@@ -44,8 +46,8 @@ public class MapperUtils {
     public Function<Question, QuestionDTO> mapQuestionToDTO() {
         return question -> new QuestionDTO(question.getUserId(), question.getQuestion(), Arrays.stream(Type.values())
                 .filter(type -> type.name().equals(question.getType()))
-                .findFirst().orElse(), Arrays.stream(Category.values())
+                .findFirst().orElse(Type.OPEN), Arrays.stream(Category.values())
                 .filter(category -> category.name().equals(question.getCategory()))
-                .findFirst().get());
+                .findFirst().orElse(Category.SCIENCES));
     }
 }

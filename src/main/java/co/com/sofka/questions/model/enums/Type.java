@@ -1,4 +1,4 @@
-package co.com.sofka.questions.model;
+package co.com.sofka.questions.model.enums;
 
 public enum Type {
     OPEN,

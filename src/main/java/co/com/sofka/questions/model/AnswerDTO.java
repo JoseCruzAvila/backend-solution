@@ -1,6 +1,5 @@
 package co.com.sofka.questions.model;
 
-
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
@@ -8,6 +7,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 public class AnswerDTO {
+    private String id;
     @NotBlank
     private String userId;
     @NotBlank
@@ -16,18 +16,26 @@ public class AnswerDTO {
     @Min(15)
     @Max(250)
     private String answer;
-
     private Integer position;
 
 
     public AnswerDTO() {
-
+        super();
     }
 
     public AnswerDTO(@NotBlank String questionId, @NotBlank String userId, @NotBlank String answer) {
+        super();
         this.setUserId(userId);
         this.setQuestionId(questionId);
         this.setAnswer(answer);
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public Integer getPosition() {
